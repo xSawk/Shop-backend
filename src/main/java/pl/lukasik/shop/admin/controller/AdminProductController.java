@@ -51,6 +51,15 @@ public class AdminProductController {
         );
     }
 
+    @DeleteMapping("/admin/product/{id}")
+    public void deleteProduct(@PathVariable Long id){
+        adminProductService.deleteProduct(id);
+    }
+
+
+
+
+
 
 
 
