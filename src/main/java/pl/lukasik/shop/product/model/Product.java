@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 @Table(name = "product")
 public class Product {
 
-
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
@@ -23,4 +22,5 @@ public class Product {
    private String description;
    private BigDecimal price;
    private String currency;
+
 }

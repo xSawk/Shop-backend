@@ -22,4 +22,5 @@ public class AdminProduct {
     private String description;
     private BigDecimal price;
     private String currency;
+    private String image;
 }

@@ -1,19 +1,36 @@
 package pl.lukasik.shop.admin.controller;
 
+import org.springframework.core.io.FileSystemResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.lukasik.shop.admin.controller.dto.AdminProductDto;
+import pl.lukasik.shop.admin.controller.dto.UploadResponse;
 import pl.lukasik.shop.admin.model.AdminProduct;
+import pl.lukasik.shop.admin.service.AdminProductImageService;
 import pl.lukasik.shop.admin.service.AdminProductService;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 public class AdminProductController {
 
     final private AdminProductService adminProductService;
+    final private AdminProductImageService adminProductImageService;
 
-    public AdminProductController(AdminProductService adminProductService) {
+    public AdminProductController(AdminProductService adminProductService,
+                                  AdminProductImageService adminProductImageService) {
         this.adminProductService = adminProductService;
+        this.adminProductImageService = adminProductImageService;
     }
 
     @GetMapping("/admin/products")
@@ -35,6 +52,7 @@ public class AdminProductController {
                 .description(adminProductDto.getDescription())
                 .price(adminProductDto.getPrice())
                 .currency(adminProductDto.getCurrency())
+                .image(adminProductDto.getImage())
                 .build()
         );
     }
@@ -47,6 +65,7 @@ public class AdminProductController {
                 .description(adminProductDto.getDescription())
                 .price(adminProductDto.getPrice())
                 .currency(adminProductDto.getCurrency().toUpperCase())
+                .image(adminProductDto.getImage())
                 .build()
         );
     }
@@ -54,6 +73,30 @@ public class AdminProductController {
     @DeleteMapping("/admin/product/{id}")
     public void deleteProduct(@PathVariable Long id){
         adminProductService.deleteProduct(id);
+    }
+
+
+    @PostMapping("/admin/product/image-upload")
+    public UploadResponse uploadImage(@RequestParam("file") MultipartFile multipartFile){
+        String filename = multipartFile.getOriginalFilename();
+
+        try(InputStream inputStream = multipartFile.getInputStream()) {
+            String savedFileName = adminProductImageService.uploadImage(filename, inputStream);
+            return new UploadResponse(savedFileName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+    @GetMapping("/data/productImg/{filename}")
+    public ResponseEntity<Resource> serveFiles(@PathVariable String filename) throws IOException {
+
+        Resource file = adminProductImageService.serveFiles(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
+                .body(file);
+
     }
 
 

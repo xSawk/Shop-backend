@@ -10,4 +10,5 @@ public class AdminProductDto {
     private String description;
     private BigDecimal price;
     private String currency;
+    private String image;
 }
