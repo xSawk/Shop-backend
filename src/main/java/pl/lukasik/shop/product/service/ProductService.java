@@ -2,11 +2,12 @@ package pl.lukasik.shop.product.service;
 
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.lukasik.shop.product.model.Product;
 import pl.lukasik.shop.product.repo.ProductRepository;
+
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -19,5 +20,9 @@ public class ProductService {
 
     public Page<Product> getProduct(Pageable pageable){
         return productRepository.findAll(pageable);
+    }
+
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElseThrow();
     }
 }
