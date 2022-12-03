@@ -1,4 +1,4 @@
-package pl.lukasik.shop.admin.controller.dto;
+package pl.lukasik.shop.admin.product.controller.dto;
 
 import lombok.Getter;
 

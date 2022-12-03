@@ -1,13 +1,11 @@
-package pl.lukasik.shop.admin.service;
+package pl.lukasik.shop.admin.product.service;
 
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import pl.lukasik.shop.admin.controller.dto.AdminProductDto;
-import pl.lukasik.shop.admin.model.AdminProduct;
-import pl.lukasik.shop.admin.repo.AdminProductRepository;
+import pl.lukasik.shop.admin.product.model.AdminProduct;
+import pl.lukasik.shop.admin.product.repo.AdminProductRepository;
 
 @Service
 public class AdminProductService {

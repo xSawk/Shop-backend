@@ -1,4 +1,4 @@
-package pl.lukasik.shop.admin.service;
+package pl.lukasik.shop.admin.product.service;
 
 import org.apache.commons.io.FilenameUtils;
 
