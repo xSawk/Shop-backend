@@ -55,7 +55,7 @@ public class AdminProductController {
     }
     @PutMapping("/admin/product/{id}")
     public AdminProduct updateProduct(@RequestBody AdminProductDto adminProductDto, @PathVariable Long id){
-        return adminProductService.addProduct(AdminProduct.builder()
+        return adminProductService.updateProduct(AdminProduct.builder()
                 .id(id)
                 .name(adminProductDto.getName())
                 .category(adminProductDto.getCategory())
