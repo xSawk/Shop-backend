@@ -45,7 +45,7 @@ public class AdminProductController {
     public AdminProduct addProduct(@RequestBody AdminProductDto adminProductDto){
         return adminProductService.addProduct(AdminProduct.builder()
                 .name(adminProductDto.getName())
-                .category(adminProductDto.getCategory())
+                .categoryId(adminProductDto.getCategoryId())
                 .description(adminProductDto.getDescription())
                 .price(adminProductDto.getPrice())
                 .currency(adminProductDto.getCurrency())
@@ -58,7 +58,7 @@ public class AdminProductController {
         return adminProductService.updateProduct(AdminProduct.builder()
                 .id(id)
                 .name(adminProductDto.getName())
-                .category(adminProductDto.getCategory())
+                .categoryId(adminProductDto.getCategoryId())
                 .description(adminProductDto.getDescription())
                 .price(adminProductDto.getPrice())
                 .currency(adminProductDto.getCurrency().toUpperCase())
