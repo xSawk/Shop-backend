@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.lukasik.shop.category.model.Category;
-import pl.lukasik.shop.category.model.CategoryProductsDto;
+import pl.lukasik.shop.common.model.Category;
+import pl.lukasik.shop.category.dto.CategoryProductsDto;
 import pl.lukasik.shop.category.service.CategoryService;
 
 import java.util.List;

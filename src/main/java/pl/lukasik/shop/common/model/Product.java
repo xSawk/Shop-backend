@@ -1,10 +1,8 @@
-package pl.lukasik.shop.product.model;
+package pl.lukasik.shop.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.lukasik.shop.category.model.Category;
-import pl.lukasik.shop.review.model.Review;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

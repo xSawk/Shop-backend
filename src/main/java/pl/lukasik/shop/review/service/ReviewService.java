@@ -2,7 +2,7 @@ package pl.lukasik.shop.review.service;
 
 
 import org.springframework.stereotype.Service;
-import pl.lukasik.shop.review.model.Review;
+import pl.lukasik.shop.common.model.Review;
 import pl.lukasik.shop.review.repository.ReviewRepository;
 
 @Service

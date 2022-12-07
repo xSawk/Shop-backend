@@ -1,11 +1,11 @@
-package pl.lukasik.shop.admin.product.service;
+package pl.lukasik.shop.admin.common.utils;
 
 import org.apache.commons.io.FilenameUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-class ExistingFileRenameUtils {
+public class ExistingFileRenameUtils {
 
 
     public static String renameIfExists(String dirUpload, String fileName) {

@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import pl.lukasik.shop.admin.common.utils.ExistingFileRenameUtils;
+import pl.lukasik.shop.admin.common.utils.UploadedFileNamesUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -4,10 +4,8 @@ package pl.lukasik.shop.product.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.lukasik.shop.product.model.Product;
-import pl.lukasik.shop.product.repo.ProductRepository;
-
-import java.util.Optional;
+import pl.lukasik.shop.common.model.Product;
+import pl.lukasik.shop.common.repository.ProductRepository;
 
 @Service
 public class ProductService {
