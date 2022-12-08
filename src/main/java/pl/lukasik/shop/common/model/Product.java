@@ -24,7 +24,5 @@ public class Product {
    private BigDecimal price;
    private String currency;
    private String image;
-   @OneToMany
-   @JoinColumn(name = "productId")
-   private List<Review> reviews;
+
 }

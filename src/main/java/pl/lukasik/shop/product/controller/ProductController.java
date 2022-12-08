@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.lukasik.shop.common.dto.ProductListDto;
 import pl.lukasik.shop.common.model.Product;
 import pl.lukasik.shop.product.service.ProductService;
+import pl.lukasik.shop.product.service.dto.ProductDto;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public Product getProduct(@PathVariable Long id){
+    public ProductDto getProduct(@PathVariable Long id){
         return productService.getProductById(id);
 
     }
