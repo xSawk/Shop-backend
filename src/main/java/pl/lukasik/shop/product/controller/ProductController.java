@@ -16,15 +16,13 @@ import java.util.List;
 
 @RestController
 public class ProductController {
-
     private final ProductService productService;
-
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping("/products")
-    public Page<ProductListDto> getProducts(Pageable pageable){
+    public Page<ProductListDto> getProducts(Pageable pageable) {
         Page<Product> products = productService.getProduct(pageable);
         List<ProductListDto> productListDtos = products.getContent().stream()
                 .map(product -> ProductListDto.builder()
@@ -34,15 +32,13 @@ public class ProductController {
                         .price(product.getPrice())
                         .currency(product.getCurrency())
                         .image(product.getImage())
-
                         .build())
                 .toList();
         return new PageImpl<>(productListDtos, pageable, products.getTotalElements());
     }
 
     @GetMapping("/products/{id}")
-    public ProductDto getProduct(@PathVariable Long id){
+    public ProductDto getProduct(@PathVariable Long id) {
         return productService.getProductById(id);
-
     }
 }
