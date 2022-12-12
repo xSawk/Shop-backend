@@ -7,6 +7,8 @@ import pl.lukasik.shop.cart.controller.mapper.CartMapper;
 import pl.lukasik.shop.cart.model.CartProductDto;
 import pl.lukasik.shop.cart.service.CartService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/carts")
 public class CartController {
@@ -25,5 +27,10 @@ public class CartController {
     @PutMapping("/{id}")
     public CartSummaryDto addProductToCart(@PathVariable Long id, @RequestBody CartProductDto cartProductDto){
         return CartMapper.mapToCartSummary(cartService.addProductToCart(id, cartProductDto));
+    }
+
+    @PutMapping("/{id}/update")
+    public CartSummaryDto updateCart(@PathVariable Long id, @RequestBody List<CartProductDto> cartProductDtoList){
+        return CartMapper.mapToCartSummary(cartService.updateCart(id, cartProductDtoList));
     }
 }

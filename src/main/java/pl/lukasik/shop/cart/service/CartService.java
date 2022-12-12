@@ -11,6 +11,7 @@ import pl.lukasik.shop.common.model.Product;
 import pl.lukasik.shop.common.repository.ProductRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CartService {
@@ -53,5 +54,16 @@ public class CartService {
         return cartRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
+    public Cart updateCart(Long id, List<CartProductDto> cartProductDtoList) {
+        Cart cart = cartRepository.findById(id).orElseThrow();
+        cart.getItems().forEach(cartItem -> {
+            cartProductDtoList.stream()
+                    .filter(cartProductDto -> cartItem.getProduct().getId().equals(cartProductDto.productId()))
+                    .findFirst()
+                    .ifPresent(cartProductDto -> cartItem.setQuantity(cartProductDto.quantity()));
+        });
+        return cart;
 
+    }
 }
