@@ -4,7 +4,7 @@ package pl.lukasik.shop.cart.controller;
 import org.springframework.web.bind.annotation.*;
 import pl.lukasik.shop.cart.controller.dto.CartSummaryDto;
 import pl.lukasik.shop.cart.controller.mapper.CartMapper;
-import pl.lukasik.shop.cart.model.CartProductDto;
+import pl.lukasik.shop.cart.model.dto.CartProductDto;
 import pl.lukasik.shop.cart.service.CartService;
 
 import java.util.List;

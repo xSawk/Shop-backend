@@ -4,8 +4,8 @@ import pl.lukasik.shop.cart.controller.dto.CartSummaryDto;
 import pl.lukasik.shop.cart.controller.dto.CartSummaryItemDto;
 import pl.lukasik.shop.cart.controller.dto.ProductDto;
 import pl.lukasik.shop.cart.controller.dto.SummaryDto;
-import pl.lukasik.shop.cart.model.Cart;
-import pl.lukasik.shop.cart.model.CartItem;
+import pl.lukasik.shop.common.model.Cart;
+import pl.lukasik.shop.common.model.CartItem;
 import pl.lukasik.shop.common.model.Product;
 
 import java.math.BigDecimal;

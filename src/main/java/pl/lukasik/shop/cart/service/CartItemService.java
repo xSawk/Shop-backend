@@ -2,7 +2,7 @@ package pl.lukasik.shop.cart.service;
 
 
 import org.springframework.stereotype.Service;
-import pl.lukasik.shop.cart.repository.CartItemRepository;
+import pl.lukasik.shop.common.repository.CartItemRepository;
 
 @Service
 public class CartItemService {

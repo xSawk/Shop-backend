@@ -3,10 +3,10 @@ package pl.lukasik.shop.cart.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lukasik.shop.cart.model.Cart;
-import pl.lukasik.shop.cart.model.CartItem;
-import pl.lukasik.shop.cart.model.CartProductDto;
-import pl.lukasik.shop.cart.repository.CartRepository;
+import pl.lukasik.shop.common.model.Cart;
+import pl.lukasik.shop.common.model.CartItem;
+import pl.lukasik.shop.cart.model.dto.CartProductDto;
+import pl.lukasik.shop.common.repository.CartRepository;
 import pl.lukasik.shop.common.model.Product;
 import pl.lukasik.shop.common.repository.ProductRepository;
 

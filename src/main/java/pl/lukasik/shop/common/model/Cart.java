@@ -1,4 +1,4 @@
-package pl.lukasik.shop.cart.model;
+package pl.lukasik.shop.common.model;
 
 
 import lombok.AllArgsConstructor;

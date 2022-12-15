@@ -2,9 +2,7 @@ package pl.lukasik.shop.cart.controller;
 
 
 import org.springframework.web.bind.annotation.*;
-import pl.lukasik.shop.cart.repository.CartRepository;
 import pl.lukasik.shop.cart.service.CartItemService;
-import pl.lukasik.shop.cart.service.CartService;
 
 @RestController
 @RequestMapping("/cartItems")
