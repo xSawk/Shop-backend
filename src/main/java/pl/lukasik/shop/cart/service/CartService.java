@@ -3,6 +3,7 @@ package pl.lukasik.shop.cart.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import pl.lukasik.shop.common.model.Cart;
 import pl.lukasik.shop.common.model.CartItem;
 import pl.lukasik.shop.cart.model.dto.CartProductDto;
@@ -66,4 +67,7 @@ public class CartService {
         return cart;
 
     }
+
+
+
 }

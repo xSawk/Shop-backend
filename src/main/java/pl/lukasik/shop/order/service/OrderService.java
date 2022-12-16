@@ -7,13 +7,13 @@ import pl.lukasik.shop.common.model.Cart;
 import pl.lukasik.shop.common.model.CartItem;
 import pl.lukasik.shop.common.repository.CartItemRepository;
 import pl.lukasik.shop.common.repository.CartRepository;
-import pl.lukasik.shop.order.model.Order;
-import pl.lukasik.shop.order.model.OrderRow;
-import pl.lukasik.shop.order.model.OrderStatus;
+import pl.lukasik.shop.order.model.*;
 import pl.lukasik.shop.order.model.dto.OrderDto;
 import pl.lukasik.shop.order.model.dto.OrderSummary;
 import pl.lukasik.shop.order.repository.OrderRepository;
 import pl.lukasik.shop.order.repository.OrderRowRepository;
+import pl.lukasik.shop.order.repository.PaymentRepository;
+import pl.lukasik.shop.order.repository.ShipmentRepository;
 
 import java.math.BigDecimal;
 
@@ -28,19 +28,26 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final OrderRowRepository orderRowRepository;
     private final CartItemRepository cartItemRepository;
+    private final ShipmentRepository shipmentRepository;
+    private final PaymentRepository paymentRepository;
 
 
-    public OrderService(OrderRepository orderRepository, CartRepository cartRepository, OrderRowRepository orderRowRepository, CartItemRepository cartItemRepository) {
+
+    public OrderService(OrderRepository orderRepository, CartRepository cartRepository, OrderRowRepository orderRowRepository, CartItemRepository cartItemRepository, ShipmentRepository shipmentRepository, PaymentRepository paymentRepository) {
         this.orderRepository = orderRepository;
         this.cartRepository = cartRepository;
         this.orderRowRepository = orderRowRepository;
         this.cartItemRepository = cartItemRepository;
+        this.shipmentRepository = shipmentRepository;
+        this.paymentRepository = paymentRepository;
     }
 
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto) {
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
+        Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
+        Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
         Order order = Order.builder()
                 .firstname(orderDto.getFirstname())
                 .lastname(orderDto.getLastname())
@@ -51,11 +58,13 @@ public class OrderService {
                 .phone(orderDto.getPhone())
                 .placeDate(LocalDateTime.now())
                 .orderStatus(OrderStatus.New)
-                .grossValue(calculateGrossValue(cart.getItems()))
+                .grossValue(calculateGrossValue(cart.getItems(), shipment))
+                .payment(payment)
                 .build();
         Order newOrder = orderRepository.save(order);
 
-        saveOrderRows(cart, newOrder.getId());
+
+        saveOrderRows(cart, newOrder.getId(), shipment);
         cartItemRepository.deleteByCartId(orderDto.getCartId());
         cartRepository.deleteCartById(orderDto.getCartId());
 
@@ -65,32 +74,46 @@ public class OrderService {
                 .status(newOrder.getOrderStatus())
                 .placeDate(newOrder.getPlaceDate())
                 .grossValue(newOrder.getGrossValue())
+                .payment(payment)
                 .build();
 
     }
 
-    private BigDecimal calculateGrossValue(List<CartItem> items) {
+    private BigDecimal calculateGrossValue(List<CartItem> items, Shipment shipment) {
         return items.stream()
                 .map(cartItem -> cartItem.getProduct().getPrice().multiply(
                         BigDecimal.valueOf(cartItem.getQuantity())))
                 .reduce(BigDecimal::add)
-                .orElse(BigDecimal.ZERO);
+                .orElse(BigDecimal.ZERO)
+                .add(shipment.getPrice());
 
     }
 
 
-    public void saveOrderRows(Cart cart, Long id){
+    public void saveOrderRows(Cart cart, Long orderId, Shipment shipment){
+        saveProductRows(cart, orderId);
+        saveShipmentRow(orderId, shipment);
+
+    }
+
+    private void saveShipmentRow(Long orderId, Shipment shipment) {
+        orderRowRepository.save(OrderRow.builder()
+                        .quantity(1)
+                        .price(shipment.getPrice())
+                        .shipmentId(shipment.getId())
+                        .orderId(orderId)
+                .build());
+    }
+
+    private void saveProductRows(Cart cart, Long orderId) {
         List<OrderRow> orderRows = cart.getItems().stream()
                 .map(cartItem -> OrderRow.builder()
                         .quantity(cartItem.getQuantity())
                         .productId(cartItem.getProduct().getId())
                         .price(cartItem.getProduct().getPrice())
-                        .orderId(id)
-
+                        .orderId(orderId)
                         .build()
                 ).toList();
-
         orderRowRepository.saveAll(orderRows);
-
     }
 }
