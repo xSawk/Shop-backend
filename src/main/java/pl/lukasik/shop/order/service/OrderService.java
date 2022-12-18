@@ -3,6 +3,7 @@ package pl.lukasik.shop.order.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.lukasik.shop.common.mail.EmailService;
 import pl.lukasik.shop.common.model.Cart;
 import pl.lukasik.shop.common.model.CartItem;
 import pl.lukasik.shop.common.repository.CartItemRepository;
@@ -18,6 +19,7 @@ import pl.lukasik.shop.order.repository.ShipmentRepository;
 import java.math.BigDecimal;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -30,16 +32,21 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
     private final PaymentRepository paymentRepository;
+    private final EmailService emailService;
 
 
 
-    public OrderService(OrderRepository orderRepository, CartRepository cartRepository, OrderRowRepository orderRowRepository, CartItemRepository cartItemRepository, ShipmentRepository shipmentRepository, PaymentRepository paymentRepository) {
+    public OrderService(OrderRepository orderRepository, CartRepository cartRepository,
+        OrderRowRepository orderRowRepository, CartItemRepository cartItemRepository,
+        ShipmentRepository shipmentRepository, PaymentRepository paymentRepository,
+        EmailService emailService) {
         this.orderRepository = orderRepository;
         this.cartRepository = cartRepository;
         this.orderRowRepository = orderRowRepository;
         this.cartItemRepository = cartItemRepository;
         this.shipmentRepository = shipmentRepository;
         this.paymentRepository = paymentRepository;
+        this.emailService = emailService;
     }
 
 
@@ -62,12 +69,10 @@ public class OrderService {
                 .payment(payment)
                 .build();
         Order newOrder = orderRepository.save(order);
-
-
         saveOrderRows(cart, newOrder.getId(), shipment);
         cartItemRepository.deleteByCartId(orderDto.getCartId());
         cartRepository.deleteCartById(orderDto.getCartId());
-
+        emailService.send(order.getEmail(), "Twoje zamówienie zostało przyjęte", emailMsg(order));
 
         return OrderSummary.builder()
                 .id(newOrder.getId())
@@ -77,6 +82,16 @@ public class OrderService {
                 .payment(payment)
                 .build();
 
+    }
+
+    private String emailMsg(Order order) {
+        return "Twoje zamówienie o id: " + order.getId() +
+                "\nData złożenia: " + order.getPlaceDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
+                "\nWartość: " + order.getGrossValue() + " PLN " +
+                "\n\n" +
+                "\nPłatność: " + order.getPayment().getName() +
+                (order.getPayment().getNote() != null ? "\n" + order.getPayment().getNote() : "") +
+                "\n\nDziękujemy za zakupy.";
     }
 
     private BigDecimal calculateGrossValue(List<CartItem> items, Shipment shipment) {
