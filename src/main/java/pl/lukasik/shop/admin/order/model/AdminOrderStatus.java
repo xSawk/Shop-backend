@@ -1,11 +1,10 @@
-package pl.lukasik.shop.order.model;
+package pl.lukasik.shop.admin.order.model;
 
-public enum OrderStatus {
+public enum AdminOrderStatus {
     New,
     Paid,
     Processing,
     Waiting_for_delivery,
     Completed,
     Canceled;
-
 }
