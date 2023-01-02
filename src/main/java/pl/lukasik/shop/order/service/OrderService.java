@@ -5,23 +5,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lukasik.shop.common.mail.EmailService;
 import pl.lukasik.shop.common.model.Cart;
-import pl.lukasik.shop.common.model.CartItem;
 import pl.lukasik.shop.common.repository.CartItemRepository;
 import pl.lukasik.shop.common.repository.CartRepository;
 import pl.lukasik.shop.order.model.*;
 import pl.lukasik.shop.order.model.dto.OrderDto;
+import pl.lukasik.shop.order.model.dto.OrderListDto;
 import pl.lukasik.shop.order.model.dto.OrderSummary;
 import pl.lukasik.shop.order.repository.OrderRepository;
 import pl.lukasik.shop.order.repository.OrderRowRepository;
 import pl.lukasik.shop.order.repository.PaymentRepository;
 import pl.lukasik.shop.order.repository.ShipmentRepository;
 
-import java.math.BigDecimal;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static pl.lukasik.shop.order.service.mapper.OrderDtoMapper.mapToOrderListDto;
 import static pl.lukasik.shop.order.service.mapper.OrderEmailMessageMapper.emailMsg;
 import static pl.lukasik.shop.order.service.mapper.OrderMapper.*;
 
@@ -54,11 +51,11 @@ public class OrderService {
 
 
     @Transactional
-    public OrderSummary placeOrder(OrderDto orderDto) {
+    public OrderSummary placeOrder(OrderDto orderDto, String userName) {
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
         Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
-        Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment));
+        Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment, userName));
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
         emailService.send(newOrder.getEmail(),
@@ -89,6 +86,11 @@ public class OrderService {
         List<OrderRow> orderRows = cart.getItems().stream()
                 .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem)).toList();
         orderRowRepository.saveAll(orderRows);
+    }
+
+
+    public List<OrderListDto> getOrdersForCustomer(String userName) {
+        return mapToOrderListDto(orderRepository.findByUserUsername(userName));
     }
 
 

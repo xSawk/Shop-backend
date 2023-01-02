@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import pl.lukasik.shop.security.model.UserRole;
 
 import javax.sql.DataSource;
 
@@ -33,7 +34,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager,
                                                    UserDetailsService userDetailsService) throws Exception {
         http.authorizeRequests(authorize -> authorize
-                        .antMatchers("/admin/**").authenticated()
+                        .antMatchers("/admin/**").hasRole(UserRole.ROLE_ADMIN.getValue())
                         .anyRequest().permitAll()
                 );
         http.csrf().disable();
