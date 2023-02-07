@@ -9,8 +9,6 @@ import pl.lukasik.shop.common.model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-
-
-
     Page<Product> findByCategoryId(Long id, Pageable pageable);
+
 }

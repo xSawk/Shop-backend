@@ -24,16 +24,13 @@ public class CartCleanupService {
 
     @Transactional
     @Scheduled(cron = "0 0 4 * * *")
-    public void cleanupOldCards(){
+    public void cleanupOldCards() {
 
         List<Cart> carts = cartRepository.findByCreatedLessThan(LocalDateTime.now().minusDays(3));
         carts.forEach(cart -> {
             cartItemRepository.deleteByCartId(cart.getId());
             cartRepository.deleteCartById(cart.getId());
         });
-
-
-
-
     }
+
 }

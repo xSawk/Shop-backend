@@ -33,12 +33,9 @@ public class CartService {
     public Cart addProductToCart(Long id, CartProductDto cartProductDto) {
         Cart cart = getInitializedCart(id);
         cart.addProduct(CartItem.builder()
-                        .quantity(cartProductDto.quantity())
-                        .product(getProduct(cartProductDto.productId()))
-                        .cartId(cart.getId())
-
-
-
+                .quantity(cartProductDto.quantity())
+                .product(getProduct(cartProductDto.productId()))
+                .cartId(cart.getId())
                 .build());
         return cart;
     }
@@ -48,9 +45,8 @@ public class CartService {
     }
 
     private Cart getInitializedCart(Long id) {
-        if(id == null || id <= 0){
+        if (id == null || id <= 0) {
             return cartRepository.save(Cart.builder().created(LocalDateTime.now()).build());
-
         }
         return cartRepository.findById(id).orElseThrow();
     }
@@ -65,9 +61,5 @@ public class CartService {
                     .ifPresent(cartProductDto -> cartItem.setQuantity(cartProductDto.quantity()));
         });
         return cart;
-
     }
-
-
-
 }

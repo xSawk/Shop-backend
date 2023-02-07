@@ -21,16 +21,14 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
-
     public CategoryService(CategoryRepository categoryRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
     }
 
-    public List<Category> getCategories(){
+    public List<Category> getCategories() {
         return categoryRepository.findAll();
     }
-
 
     @Transactional(readOnly = true)
     public CategoryProductsDto getCategoriesWithProduct(Long id, Pageable pageable) {
@@ -45,10 +43,9 @@ public class CategoryService {
                         .price(product.getPrice())
                         .currency(product.getCurrency())
                         .image(product.getImage())
-
                         .build())
                 .toList();
 
-        return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable ,page.getTotalElements()));
+        return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements()));
     }
 }

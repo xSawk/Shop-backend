@@ -25,7 +25,6 @@ import static pl.lukasik.shop.order.service.mapper.OrderMapper.*;
 @Service
 public class OrderService {
 
-
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
     private final OrderRowRepository orderRowRepository;
@@ -34,12 +33,10 @@ public class OrderService {
     private final PaymentRepository paymentRepository;
     private final EmailService emailService;
 
-
-
     public OrderService(OrderRepository orderRepository, CartRepository cartRepository,
-        OrderRowRepository orderRowRepository, CartItemRepository cartItemRepository,
-        ShipmentRepository shipmentRepository, PaymentRepository paymentRepository,
-        EmailService emailService) {
+                        OrderRowRepository orderRowRepository, CartItemRepository cartItemRepository,
+                        ShipmentRepository shipmentRepository, PaymentRepository paymentRepository,
+                        EmailService emailService) {
         this.orderRepository = orderRepository;
         this.cartRepository = cartRepository;
         this.orderRowRepository = orderRowRepository;
@@ -70,7 +67,7 @@ public class OrderService {
         cartRepository.deleteCartById(orderDto.getCartId());
     }
 
-    public void saveOrderRows(Cart cart, Long orderId, Shipment shipment){
+    public void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {
         saveProductRows(cart, orderId);
         saveShipmentRow(orderId, shipment);
 
@@ -80,18 +77,14 @@ public class OrderService {
         orderRowRepository.save(mapToOrderRow(orderId, shipment));
     }
 
-
-
     private void saveProductRows(Cart cart, Long orderId) {
         List<OrderRow> orderRows = cart.getItems().stream()
                 .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem)).toList();
         orderRowRepository.saveAll(orderRows);
     }
 
-
     public List<OrderListDto> getOrdersForCustomer(String userName) {
         return mapToOrderListDto(orderRepository.findByUserUsername(userName));
     }
-
 
 }

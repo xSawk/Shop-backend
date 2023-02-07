@@ -20,17 +20,17 @@ public class CartController {
     }
 
     @GetMapping("/{id}")
-    public CartSummaryDto getCart(@PathVariable Long id){
+    public CartSummaryDto getCart(@PathVariable Long id) {
         return CartMapper.mapToCartSummary(cartService.getCart(id));
     }
 
     @PutMapping("/{id}")
-    public CartSummaryDto addProductToCart(@PathVariable Long id, @RequestBody CartProductDto cartProductDto){
+    public CartSummaryDto addProductToCart(@PathVariable Long id, @RequestBody CartProductDto cartProductDto) {
         return CartMapper.mapToCartSummary(cartService.addProductToCart(id, cartProductDto));
     }
 
     @PutMapping("/{id}/update")
-    public CartSummaryDto updateCart(@PathVariable Long id, @RequestBody List<CartProductDto> cartProductDtoList){
+    public CartSummaryDto updateCart(@PathVariable Long id, @RequestBody List<CartProductDto> cartProductDtoList) {
         return CartMapper.mapToCartSummary(cartService.updateCart(id, cartProductDtoList));
     }
 }

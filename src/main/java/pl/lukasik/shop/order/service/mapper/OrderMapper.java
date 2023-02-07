@@ -28,6 +28,7 @@ public class OrderMapper {
                 .userUsername(userName)
                 .build();
     }
+
     private static BigDecimal calculateGrossValue(List<CartItem> items, Shipment shipment) {
         return items.stream()
                 .map(cartItem -> cartItem.getProduct().getPrice().multiply(
@@ -47,6 +48,7 @@ public class OrderMapper {
                 .payment(payment)
                 .build();
     }
+
     public static OrderRow mapToOrderRow(Long orderId, Shipment shipment) {
         return OrderRow.builder()
                 .quantity(1)
@@ -64,6 +66,5 @@ public class OrderMapper {
                 .orderId(orderId)
                 .build();
     }
-
 
 }

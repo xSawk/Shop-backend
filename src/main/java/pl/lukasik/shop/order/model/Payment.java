@@ -18,5 +18,4 @@ public class Payment {
     private boolean defaultPayment;
     private String note;
 
-
 }

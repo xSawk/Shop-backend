@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
+
     private final OrderService orderService;
     private final ShipmentService shipmentService;
     private final PaymentService paymentService;
@@ -27,14 +28,13 @@ public class OrderController {
         this.paymentService = paymentService;
     }
 
-
     @PostMapping
-    public OrderSummary placeOrder(@RequestBody OrderDto orderDto,@AuthenticationPrincipal String userName){
-        return orderService.placeOrder(orderDto,userName);
+    public OrderSummary placeOrder(@RequestBody OrderDto orderDto, @AuthenticationPrincipal String userName) {
+        return orderService.placeOrder(orderDto, userName);
     }
 
     @GetMapping("/initData")
-    public InitOrder initData(){
+    public InitOrder initData() {
         return InitOrder.builder()
                 .shipment(shipmentService.getShipments())
                 .payment(paymentService.getPayments())
@@ -42,7 +42,7 @@ public class OrderController {
     }
 
     @GetMapping()
-    public List<OrderListDto> getOrders(@AuthenticationPrincipal String userName){
+    public List<OrderListDto> getOrders(@AuthenticationPrincipal String userName) {
         return orderService.getOrdersForCustomer(userName);
 
     }

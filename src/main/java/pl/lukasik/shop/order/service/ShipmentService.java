@@ -9,13 +9,14 @@ import java.util.List;
 
 @Service
 public class ShipmentService {
+
     private final ShipmentRepository shipmentRepository;
 
     public ShipmentService(ShipmentRepository shipmentRepository) {
         this.shipmentRepository = shipmentRepository;
     }
 
-    public List<Shipment> getShipments(){
+    public List<Shipment> getShipments() {
         return shipmentRepository.findAll();
     }
 }

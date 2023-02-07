@@ -9,6 +9,7 @@ public enum UserRole {
     ROLE_CUSTOMER("CUSTOMER");
 
     private String value;
+
     UserRole(String value) {
         this.value = value;
     }

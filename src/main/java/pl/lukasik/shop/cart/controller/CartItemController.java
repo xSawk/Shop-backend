@@ -17,12 +17,12 @@ public class CartItemController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCartItem(@PathVariable Long id){
-            cartItemService.deleteCartItem(id);
+    public void deleteCartItem(@PathVariable Long id) {
+        cartItemService.deleteCartItem(id);
     }
 
     @GetMapping("/count/{cartId}")
-    public Long countItemInCart(@PathVariable Long cartId){
+    public Long countItemInCart(@PathVariable Long cartId) {
         return cartItemService.countItemInCart(cartId);
     }
 

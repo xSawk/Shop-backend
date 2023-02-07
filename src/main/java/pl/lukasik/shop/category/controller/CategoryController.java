@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoryController {
 
-
     private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
@@ -24,13 +23,13 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getCategories(){
+    public List<Category> getCategories() {
         return categoryService.getCategories();
     }
 
     @GetMapping("/{id}/products")
-    public CategoryProductsDto getCategoriesWithProduct(@PathVariable Long id, Pageable pageable){
-        return categoryService.getCategoriesWithProduct(id,pageable);
+    public CategoryProductsDto getCategoriesWithProduct(@PathVariable Long id, Pageable pageable) {
+        return categoryService.getCategoriesWithProduct(id, pageable);
     }
 
 }

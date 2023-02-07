@@ -32,7 +32,8 @@ public class LoginController {
     private long expirationTime;
     private String secret;
 
-    public LoginController(AuthenticationManager authenticationManager, UserRepository userRepository, @Value("${jwt.expirationTime}") long expirationTime,
+    public LoginController(AuthenticationManager authenticationManager, UserRepository userRepository,
+                           @Value("${jwt.expirationTime}") long expirationTime,
                            @Value("${jwt.secret}") String secret) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
@@ -42,26 +43,24 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public Token login(@RequestBody LoginCredentials loginCredentials)
-    {
+    public Token login(@RequestBody LoginCredentials loginCredentials) {
         return auth(loginCredentials.getUsername(), loginCredentials.getPassword());
     }
 
     @PostMapping("/register")
-    public Token login(@RequestBody @Valid RegisterCredentials registerCredentials)
-    {
-        if(!registerCredentials.getPassword().equals(registerCredentials.getRepeatPassword())){
+    public Token login(@RequestBody @Valid RegisterCredentials registerCredentials) {
+        if (!registerCredentials.getPassword().equals(registerCredentials.getRepeatPassword())) {
             throw new IllegalArgumentException("Passwords do not match");
         }
 
-        if(userRepository.existsByUsername(registerCredentials.getUsername())){
-             throw new IllegalArgumentException("Username already exists");
+        if (userRepository.existsByUsername(registerCredentials.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
         }
         userRepository.save(User.builder()
-                        .username(registerCredentials.getUsername())
-                        .password("{bcrypt}" + new BCryptPasswordEncoder().encode(registerCredentials.getPassword()))
-                        .enabled(true)
-                        .authorities(List.of(UserRole.ROLE_CUSTOMER))
+                .username(registerCredentials.getUsername())
+                .password("{bcrypt}" + new BCryptPasswordEncoder().encode(registerCredentials.getPassword()))
+                .enabled(true)
+                .authorities(List.of(UserRole.ROLE_CUSTOMER))
                 .build()
         );
 
@@ -79,40 +78,37 @@ public class LoginController {
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
                 .sign(Algorithm.HMAC256(secret));
         return new Token(token, principal.getAuthorities().stream()
-                        .map(grantedAuthority -> grantedAuthority.getAuthority())
-                        .filter(s-> UserRole.ROLE_ADMIN.name().equals(s))
-                        .map(s -> true)
-                        .findFirst()
-                        .orElse(false)
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .filter(s -> UserRole.ROLE_ADMIN.name().equals(s))
+                .map(s -> true)
+                .findFirst()
+                .orElse(false)
         );
-
     }
 
-
     @Getter
-    private static class LoginCredentials{
+    private static class LoginCredentials {
+
         private String username;
         private String password;
-
     }
+
     @Getter
-    private static class RegisterCredentials{
+    private static class RegisterCredentials {
+
         @Email
         private String username;
         @NotBlank
         private String password;
         @NotBlank
         private String repeatPassword;
-
     }
-
 
     @Getter
     @AllArgsConstructor
-    private static class Token{
+    private static class Token {
 
         private String token;
         private boolean adminAccess;
-
     }
 }

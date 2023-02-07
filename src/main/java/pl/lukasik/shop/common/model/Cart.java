@@ -35,15 +35,9 @@ public class Cart {
         items.stream()
                 .filter(item -> Objects.equals(cartItem.getProduct().getId(), item.getProduct().getId()))
                 .findFirst()
-                .ifPresentOrElse(
-                        item -> item.setQuantity(item.getQuantity() + 1),
-                        () -> items.add(cartItem)
-                );
-
+                .ifPresentOrElse(item -> item.setQuantity(item.getQuantity() + 1), () -> items.add(cartItem));
     }
 
-
-
-    }
+}
 
 

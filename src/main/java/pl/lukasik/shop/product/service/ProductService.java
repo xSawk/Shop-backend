@@ -28,6 +28,7 @@ public class ProductService {
     public Page<Product> getProduct(Pageable pageable){
         return productRepository.findAll(pageable);
     }
+
     @Transactional(readOnly = true)
     public ProductDto getProductById(Long id) {
 

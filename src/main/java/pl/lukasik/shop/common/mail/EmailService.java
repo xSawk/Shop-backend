@@ -16,6 +16,7 @@ public class EmailService {
     public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
+
     @Async
     public void send(String to,String subject,String message){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();

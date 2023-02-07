@@ -21,7 +21,6 @@ public class CartMapper {
 
     }
 
-
     private static List<CartSummaryItemDto> mapCartItems(List<CartItem> items) {
         return items.stream()
                 .map(CartMapper::mapToCartItem)
@@ -69,6 +68,5 @@ public class CartMapper {
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }
-
 
 }

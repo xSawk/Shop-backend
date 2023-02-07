@@ -6,12 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import pl.lukasik.shop.common.model.CartItem;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
-    Long countByCartId(Long cardId);
 
+    Long countByCartId(Long cardId);
 
     @Query("delete from CartItem ci where ci.cartId=:cartId")
     @Modifying
     void deleteByCartId(Long cartId);
-
 
 }

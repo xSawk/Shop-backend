@@ -34,12 +34,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager,
                                                    UserDetailsService userDetailsService) throws Exception {
         http.authorizeRequests(authorize -> authorize
-                        .antMatchers("/admin/**").hasRole(UserRole.ROLE_ADMIN.getValue())
-                        .anyRequest().permitAll()
-                );
+                .antMatchers("/admin/**").hasRole(UserRole.ROLE_ADMIN.getValue())
+                .anyRequest().permitAll()
+        );
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilter(new JwtAuthorizationFilter(authenticationManager,userDetailsService,secret));
+        http.addFilter(new JwtAuthorizationFilter(authenticationManager, userDetailsService, secret));
         return http.build();
     }
 
@@ -49,7 +49,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource){
+    public UserDetailsService userDetailsService(DataSource dataSource) {
         return new JdbcUserDetailsManager(dataSource);
     }
 }
