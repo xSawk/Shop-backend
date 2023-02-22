@@ -44,5 +44,19 @@ A project of online shop, based on a REST API architecture. Provides resources f
 - Product category management
 - Moderation of product reviews
 
+## Installation
 
+Clone the repository:
+```sh
+git clone https://github.com/xSawk/Shop-backend.git
+```
+Navigate to the project directory and build the project using Maven:
+```sh
+mvn clean install
+```  
+Run the application:
+```sh
+mvn spring-boot:run
+```  
+The application should now be running at http://localhost:8080
 
