@@ -1,7 +1,7 @@
 
 # Online Shop
 
-A project of online shop, based on a REST API architecture. Provides resources for the frontend. Application allows for the sale of a wide range of products, making it suitable for use in various commercial industries. 
+A project of online shop, based on a REST API architecture. Provides resources for the frontend. Application allows for the sale of a wide range of products, making it suitable for use in various commercial industries.
 
 
 ## Technology Stacks
@@ -14,7 +14,7 @@ A project of online shop, based on a REST API architecture. Provides resources f
 - MySQL
 - Liquibase
 - JPA/Hibernate
-- Maven 
+- Maven
 
 **Frontend**
 
@@ -26,10 +26,10 @@ A project of online shop, based on a REST API architecture. Provides resources f
 
 ## Features
 
-**User:**                         
+**User:**
 
 - Account creation and login
-- Product browsing 
+- Product browsing
 - Product searching
 - Placing orders
 - Adding reviews of a product
@@ -43,6 +43,29 @@ A project of online shop, based on a REST API architecture. Provides resources f
 - Order management
 - Product category management
 - Moderation of product reviews
+
+
+## Installation
+
+Clone the repository:
+```sh
+git clone https://github.com/xSawk/Shop-backend.git
+```
+Navigate to the project directory and build the project using Maven:
+```sh
+mvn clean install
+```  
+Start the container for MySQL using Docker Compose:
+```sh
+docker-compose up
+```  
+Run the application:
+```sh
+mvn spring-boot:run
+```  
+The application should now be running at http://localhost:8080
+
+
 
 
 
